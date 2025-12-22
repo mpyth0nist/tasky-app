@@ -1,0 +1,75 @@
+.create-list-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    min-width: 450px;
+    max-width: 550px;
+    margin: 20px auto;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background-color: var(--navy-medium);
+}
+
+.create-list-form .title,
+.create-list-form .description {
+    padding: 1rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+    width: calc(100% - 20px);
+    max-width: 500px;
+}
+
+.create-list-form input[type="text"],
+.create-list-form textarea {
+    background-color: var(--cream-light);
+    color: var(--navy-deep);
+    font-weight: 400;
+}
+
+.create-list-form input[type="text"]::placeholder,
+.create-list-form textarea::placeholder {
+    color: var(--navy-slate);
+    opacity: 0.6;
+}
+
+.create-list-form .title:focus,
+.create-list-form .description:focus {
+    border-color: var(--cream-soft);
+    background-color: var(--cream-soft);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(248, 246, 241, 0.1);
+}
+
+.create-list-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.create-list-form button[type="submit"] {
+    padding: 1rem 2.5rem;
+    background-color: var(--cream-light);
+    color: var(--navy-deep);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.create-list-form button[type="submit"]:hover {
+    background-color: var(--cream-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(248, 246, 241, 0.2);
+}
+
+.create-list-form button[type="submit"]:active {
+    transform: translateY(0);
+}

@@ -1,0 +1,68 @@
+/* Sidebar Styles */
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar container - centered on page */
+.navbar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: fit-content;
+}
+
+/* Minimalist tab buttons */
+.navbar-tab {
+    background: transparent;
+    border: 2px solid var(--cream-beige);
+    border-radius: 10px;
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--cream-soft);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    white-space: nowrap;
+}
+
+/* Hover state */
+.navbar-tab:hover {
+    border-color: var(--cream-light);
+    color: var(--cream-light);
+    background-color: rgba(248, 246, 241, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(248, 246, 241, 0.1);
+}
+
+/* Active/Focus state */
+.navbar-tab:focus {
+    border-color: var(--cream-light);
+    box-shadow: 0 0 0 3px rgba(248, 246, 241, 0.15);
+}
+
+/* Active state */
+.navbar-tab.active {
+    background-color: var(--cream-light);
+    border-color: var(--cream-light);
+    color: var(--navy-deep);
+    font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 1.5rem auto;
+    }
+
+    .navbar-tab {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,94 @@
+.list-container {
+    display: flex;
+    gap: 1.25rem;
+    flex-direction: column;
+    margin: 2rem auto;
+    border: none;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 550px;
+    background: var(--cream-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.list-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Typography styling */
+.list-container h2 {
+    color: var(--navy-deep);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.list-container p {
+    font-size: 1rem;
+    color: var(--navy-slate);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* Button styling */
+.list-container button {
+    background: var(--navy-medium);
+    border: none;
+    border-radius: 8px;
+    color: var(--cream-light);
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    white-space: nowrap;
+}
+
+.list-container button:hover {
+    background-color: var(--navy-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 41, 0.3);
+}
+
+.list-container button:active {
+    transform: translateY(0);
+}
+
+/* Options container */
+.todolist-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .list-container {
+        margin: 1.5rem;
+        padding: 1.75rem;
+        max-width: none;
+        width: calc(100% - 3rem);
+    }
+
+    .todolist-options {
+        gap: 0.75rem;
+    }
+
+    .list-container button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
+.todolists-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

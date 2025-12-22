@@ -1,0 +1,203 @@
+:root {
+  --main-theme-color: var(--navy-medium);
+  --main-text-color: var(--cream-light);
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 550px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--navy-medium);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.tasks-container h1 {
+  color: var(--cream-light);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--cream-beige);
+  padding-bottom: 1rem;
+}
+
+.tasks label {
+  color: var(--cream-soft);
+  font-weight: 500;
+}
+
+.tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--cream-light);
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.task-state {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--navy-deep);
+  cursor: pointer;
+}
+
+.task h3 {
+  margin: 0;
+  flex-grow: 1;
+  color: var(--navy-deep);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.remove-task {
+  background: var(--navy-medium);
+  color: var(--cream-light);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.remove-task:hover {
+  background: var(--navy-deep);
+  transform: scale(1.1);
+}
+
+.add-tasks.btn {
+  background-color: var(--cream-light);
+  color: var(--navy-deep);
+  border: none;
+  font-weight: 600;
+}
+
+.add-tasks.btn:hover {
+  background-color: var(--cream-soft);
+}
+
+.tasks-container button,
+.get-back-btn {
+  background: var(--cream-light);
+  color: var(--navy-deep);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tasks-container button:hover,
+.get-back-btn:hover {
+  background: var(--cream-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(248, 246, 241, 0.2);
+}
+
+.add-task {
+  background: rgba(248, 246, 241, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+}
+
+.add-task form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: column;
+}
+
+.add-task input {
+  flex: 1;
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--cream-light);
+  color: var(--navy-deep);
+  transition: all 0.3s ease;
+}
+
+.add-task input:focus {
+  outline: none;
+  border-color: var(--cream-soft);
+  box-shadow: 0 0 0 3px rgba(248, 246, 241, 0.1);
+}
+
+.add-task input::placeholder {
+  color: var(--navy-slate);
+  opacity: 0.6;
+}
+
+.tasks-container select {
+  margin: 1.3rem;
+  padding: 0.9rem;
+  font-size: 0.95rem;
+  border: 2px solid var(--cream-beige);
+  background-color: var(--cream-light);
+  color: var(--navy-deep);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tasks-container select:focus {
+  outline: none;
+  border-color: var(--cream-soft);
+  box-shadow: 0 0 0 3px rgba(248, 246, 241, 0.1);
+}
+
+.add-task button {
+  background: var(--cream-light);
+  color: var(--navy-deep);
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-task button:hover {
+  background: var(--cream-soft);
+  transform: translateY(-2px);
+}
+
+/* For the disabled option */
+.tasks-container option[disabled] {
+  color: var(--navy-slate);
+}
