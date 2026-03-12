@@ -10,7 +10,8 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem(ACCESS_TOKEN)
-        if (token) {
+        // Only add Authorization header if token exists and is not null/undefined
+        if (token && token !== 'null' && token !== 'undefined') {
             config.headers.Authorization = `Bearer ${token}`
         }
         return config
