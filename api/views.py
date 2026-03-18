@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -13,7 +13,6 @@ from .models import TasksList, Task
 class UserRegistrationView(generics.CreateAPIView):
     """
     Register a new user account.
-
     POST: Create a new user with username, email and password.
     No authentication required.
     """
@@ -25,9 +24,7 @@ class UserRegistrationView(generics.CreateAPIView):
 class LogoutView(generics.GenericAPIView):
     """
     Logout by blacklisting the refresh token.
-
-    POST: Blacklist the provided refresh token.
-    Requires authentication.
+    POST: Blacklist the provided refresh token. Requires authentication.
     """
     permission_classes = [IsAuthenticated]
 
@@ -61,10 +58,8 @@ class LogoutView(generics.GenericAPIView):
             )
 
 
-class TodoListView(generics.ListCreateAPIView):
+class CreateTodoList(generics.ListCreateAPIView):
     """
-    List all todo lists for the authenticated user and create new ones.
-
     GET: Returns all todo lists owned by the current user.
     POST: Creates a new todo list owned by the current user.
     """
@@ -72,92 +67,70 @@ class TodoListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """Return only todo lists owned by the current user."""
         return TasksList.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
-        """Save the todo list with the current user as owner."""
         serializer.save(owner=self.request.user)
 
 
-class TodoListDetailView(generics.RetrieveUpdateDestroyAPIView):
+class DeleteTodoList(generics.DestroyAPIView):
     """
-    Retrieve, update, or delete a todo list owned by the authenticated user.
-
-    GET: Returns a single todo list.
-    PATCH/PUT: Updates the title or description of a todo list.
-    DELETE: Removes the specified todo list.
-
-    Kept at both /todolists/<pk>/ AND /todolists/delete/<pk>/ for
-    backwards compatibility with the existing frontend.
+    DELETE: Removes the specified todo list if owned by current user.
     """
     serializer_class = ListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """Return only todo lists owned by the current user."""
         return TasksList.objects.filter(owner=self.request.user)
 
 
-class TaskView(generics.ListCreateAPIView):
+class AddTask(generics.ListCreateAPIView):
     """
-    List tasks in a todo list and add new tasks.
-
     GET: Returns all tasks in the specified todo list.
     POST: Creates a new task in the specified todo list.
-    Only works if the todo list is owned by the current user.
     """
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
 
-    def _get_todolist(self):
-        """
-        Get the todo list and verify ownership.
-        Caches the result to avoid duplicate queries within the same request.
-        """
-        if not hasattr(self, '_todolist'):
-            self._todolist = get_object_or_404(
-                TasksList,
-                id=self.kwargs['todolist_id'],
-                owner=self.request.user
-            )
-        return self._todolist
+    def get_todolist(self):
+        return get_object_or_404(
+            TasksList,
+            id=self.kwargs['todolist_id'],
+            owner=self.request.user
+        )
 
     def get_queryset(self):
-        """Return tasks only from todo lists owned by the current user."""
-        return Task.objects.filter(todo_list=self._get_todolist())
+        return Task.objects.filter(todo_list=self.get_todolist())
 
     def perform_create(self, serializer):
-        """Save the task to the specified todo list."""
-        serializer.save(todo_list=self._get_todolist())
+        serializer.save(todo_list=self.get_todolist())
 
 
-class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
+class RemoveTask(generics.DestroyAPIView):
     """
-    Retrieve, update, or delete a single task.
-
-    GET: Returns a single task.
-    PATCH/PUT: Updates the task fields.
-    DELETE: Removes the specified task.
-
-    Only works if the task belongs to a todo list owned by the current user.
+    DELETE: Removes the specified task if it belongs to a todo list
+    owned by the current user.
     """
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
 
-    def _get_todolist(self):
-        """
-        Verify the todolist exists and is owned by the requesting user.
-        Caches the result to avoid duplicate queries within the same request.
-        """
-        if not hasattr(self, '_todolist'):
-            self._todolist = get_object_or_404(
-                TasksList,
-                id=self.kwargs['todolist_id'],
-                owner=self.request.user
-            )
-        return self._todolist
+    def get_queryset(self):
+        todolist = get_object_or_404(
+            TasksList,
+            id=self.kwargs['todolist_id'],
+            owner=self.request.user
+        )
+        return Task.objects.filter(todo_list=todolist)
+
+
+class UpdateTask(generics.UpdateAPIView):
+    """
+    PATCH/PUT: Updates the specified task if it belongs to a todo list
+    owned by the current user.
+    """
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """Return tasks only from todo lists owned by the current user."""
-        return Task.objects.filter(todo_list=self._get_todolist())
+        user_todolists = TasksList.objects.filter(owner=self.request.user)
+        return Task.objects.filter(todo_list__in=user_todolists)

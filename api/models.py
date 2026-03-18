@@ -24,7 +24,7 @@ class Task(models.Model):
         default=Priority.MEDIUM,
     )
     state = models.BooleanField(default=False)
-    category = models.CharField(max_length=100, default='Unspecified')
+    category = models.CharField(max_length=100, blank=True, default='Unspecified')
     todo_list = models.ForeignKey(TasksList, related_name="tasks", on_delete=models.CASCADE)
 
     def __str__(self):

@@ -1,34 +1,57 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import '../styles/KebabMenu.css'
 
-function KebabMenu(){
-
+function KebabMenu() {
     const [isOpen, setIsOpen] = useState(false)
+    const navigate = useNavigate()
+    const menuRef = useRef(null)
 
-    const toggleOpenMenu = () => {
-        setIsOpen(!isOpen)
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setIsOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    const handleLogout = () => {
+        localStorage.clear()
+        navigate('/login')
     }
 
     return (
-        <div className="dropdown-menu">
-            <button onClick={toggleOpenMenu}>
-                ⋮
+        <div className="kebab-wrapper" ref={menuRef}>
+            <button
+                className={`kebab-btn${isOpen ? ' active' : ''}`}
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Open menu"
+                aria-expanded={isOpen}
+            >
+                <span className="kebab-dot" />
+                <span className="kebab-dot" />
+                <span className="kebab-dot" />
             </button>
 
-            {
-                isOpen ?    <ul>
-                            <li>
-                                <a>Settings</a>
-                            </li>
-
-                            <li>
-                                <a>Logout</a>
-                            </li>
-                            </ul> 
-            : null
-            }
-
+            <div className={`kebab-dropdown${isOpen ? ' open' : ''}`} role="menu">
+                <button
+                    className="kebab-item logout"
+                    onClick={handleLogout}
+                    role="menuitem"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Logout
+                </button>
+            </div>
         </div>
     )
 }
 
-export default KebabMenu;
+export default KebabMenu

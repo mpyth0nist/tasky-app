@@ -1,39 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import api from '../api'
+import { ENDPOINTS } from '../constants'
+import '../styles/CreateList.css'
 
-function CreateList({ todolists , setTodolists }){
+function CreateList({ todolists, setTodolists, onCreated }) {
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [error, setError] = useState(null)
+    const titleRef = useRef(null)
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    useEffect(() => {
+        titleRef.current?.focus()
+    }, [])
 
     const createList = (e) => {
-        
-        e.preventDefault();
+        e.preventDefault()
+        setError(null)
 
-        api.post('api/todolists/', {title, description}).then((res) => {
-            if(res.status === 201) {
-                alert("List Created, It's time to fill it with tasks!")
-            } else{
-                alert("Error while creating your list")
-            }
-            setTodolists([...todolists, res.data])
-        }
-        )
-
-
+        api.post(ENDPOINTS.TODOLISTS, { title, description })
+            .then((res) => {
+                if (res.status === 201) {
+                    setTodolists([...todolists, res.data])
+                    onCreated?.()
+                }
+            })
+            .catch(() => setError('Failed to create list. Please try again.'))
     }
 
-    
-
     return (
-    <form onSubmit={createList} className="create-list-form">
-        <input type="text" value={title} required onChange={(e) => setTitle(e.target.value)} className="title" placeholder="List Name" />
+        <form onSubmit={createList} className="create-list-form">
+            {error && <p className="inline-error">{error}</p>}
 
-        <textarea placeholder='Description' className='title' onChange={(e)=> setDescription(e.target.value)} value={description}> 
-        </textarea>
-        <button type="submit">Create!</button>
-    </form>
+            <input
+                ref={titleRef}
+                type="text"
+                value={title}
+                required
+                onChange={(e) => setTitle(e.target.value)}
+                className="title"
+                placeholder="List Name"
+            />
+            <textarea
+                placeholder="Description (optional)"
+                className="title"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+            />
+            <button type="submit">Create!</button>
+        </form>
     )
 }
 
-export default CreateList;
+export default CreateList
