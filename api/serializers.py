@@ -49,10 +49,6 @@ class TaskSerializer(serializers.ModelSerializer):
 class ListSerializer(serializers.ModelSerializer):
     """
     Serializer for todo lists.
-
-    Note: owner is not included in fields and must be set by the view's perform_create() method.
-    This prevents users from creating todolists for other users.
-    Nested tasks are returned read-only to reduce frontend round-trips.
     """
 
     tasks = TaskSerializer(many=True, read_only=True)

@@ -6,7 +6,7 @@ function Home() {
     return (
         <>
             <div className="auth-container">
-                <h1 className="app-name">TaskLite</h1>
+                <h1 className="app-name">TASKY</h1>
                 <p className="app-description">
                     A minimalist todo app that helps you focus on what matters.
                     Simple, clean, and distraction-free task management.

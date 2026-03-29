@@ -13,6 +13,12 @@ function Tasks({ todolist_id, todolist_title }) {
     const [isVisible, setVisible] = useState(false)
     const [error, setError] = useState(null)
 
+    const priorityStyling = {
+        'H': 'task-priority-high',
+        'M': 'task-priority-medium',
+        'L': 'task-priority-low'
+    }
+
     useEffect(() => {
         let cancelled = false
 
@@ -38,6 +44,11 @@ function Tasks({ todolist_id, todolist_title }) {
         api.post(ENDPOINTS.TASKS(todolist_id), { task, priority, category })
             .then((res) => setTasks((prev) => [...prev, res.data]))
             .catch(() => setError('Failed to add task. Please try again.'))
+
+        setTask('')
+        setPriority('M')
+        setCategory('')
+        setVisible(false)
     }
 
     const removeTask = (task_id) => {
@@ -109,7 +120,7 @@ function Tasks({ todolist_id, todolist_title }) {
                         />
                         <h3>{task.task}</h3>
                         <label className="task-category">{task.category}</label>
-                        <label className="task-priority">{task.priority}</label>
+                        <label className={`task-priority ${priorityStyling[task.priority]}`}>{task.priority}</label>
                         <button
                             className="remove-task"
                             onClick={() => removeTask(task.id)}
@@ -127,12 +138,14 @@ function Tasks({ todolist_id, todolist_title }) {
                         <input
                             type="text"
                             placeholder="Task…"
+                            maxLength={50}
                             value={task}
                             onChange={(e) => setTask(e.target.value)}
                             required
                         />
                         <input
                             placeholder="Category"
+                            maxLength={20}
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                         />

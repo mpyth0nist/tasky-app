@@ -23,6 +23,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+env/   
 
 # Django
 *.log
@@ -46,3 +47,4 @@ media/
 frontend/node_modules/
 frontend/build/
 frontend/dist/
+frontend/fix_git_tracking.sh
