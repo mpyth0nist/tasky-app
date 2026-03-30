@@ -32,9 +32,28 @@ def auth_client(api_client, user):
 
     access_token = response.data.get("access")
     refresh_token = response.data.get("refresh")
-
-    api_client.refresh_token = refresh_token
     
+    api_client.refresh_token = refresh_token
     api_client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+
+
     return api_client
+
+
+@pytest.fixture
+
+def todolist_data_client(auth_client, db):
+        
+    payload = {
+        "title" : "My testing todolist.",
+        "description" : "This is a good description for testing purposes",
+        "tasks" : []
+    }
+
+    response = auth_client.post(reverse('todolist-list'), payload)
+
+    auth_client.todolist = response.data
+
+    return auth_client
+
 
